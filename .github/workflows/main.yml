@@ -29,16 +29,25 @@ jobs:
 
     - name: Set up Chrome WebDriver
       run: |
-        LATEST_CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
-        LATEST_CHROMEDRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$LATEST_CHROME_VERSION)
-        curl -L -o /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-        unzip /tmp/chromedriver.zip -d /tmp
-        chmod +x /tmp/chromedriver
-        sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
+        retry_count=0
+        until [[ $retry_count -ge 3 ]]; do
+          LATEST_CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
+          LATEST_CHROMEDRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$LATEST_CHROME_VERSION)
+          if [[ $? -eq 0 ]]; then
+            curl -L -o /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+            unzip /tmp/chromedriver.zip -d /tmp
+            chmod +x /tmp/chromedriver
+            sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
+            break
+          else
+            (( retry_count++ ))
+            echo "Retrying Chromedriver download, attempt $retry_count..."
+            sleep 10
+          fi
+        done
 
     - name: Build and test with Maven
-      run: |
-        mvn -B verify
+      run: mvn -B verify
 
     - name: Archive test results
       if: always()
