@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # Use Windows runner
     
     steps:
     - name: Checkout code
@@ -20,31 +20,26 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '17'
-        distribution: 'adopt'  # Specify the distribution type here
+        distribution: 'adopt'
         architecture: 'x64'
         server-id: 'github'
         server-username: ${{ github.actor }}
         server-password: ${{ github.token }}
         overwrite-settings: true
 
-    - name: Set up Chrome WebDriver
+    - name: Set up Chromedriver for Windows
       run: |
-        retry_count=0
-        until [[ $retry_count -ge 3 ]]; do
-          LATEST_CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
-          LATEST_CHROMEDRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$LATEST_CHROME_VERSION)
-          if [[ $? -eq 0 ]]; then
-            curl -L -o /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-            unzip /tmp/chromedriver.zip -d /tmp
-            chmod +x /tmp/chromedriver
-            sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
-            break
-          else
-            (( retry_count++ ))
-            echo "Retrying Chromedriver download, attempt $retry_count..."
-            sleep 10
-          fi
-        done
+        # Replace this with the correct Chromedriver version for your Chrome version
+        $LATEST_CHROMEDRIVER_VERSION = "93.0.4577.63"  # Example version; replace with your Chrome version
+
+        # Download Chromedriver
+        Invoke-WebRequest -Uri "https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER_VERSION/chromedriver_win32.zip" -OutFile "$env:TEMP\chromedriver.zip"
+
+        # Extract Chromedriver
+        Expand-Archive -Path "$env:TEMP\chromedriver.zip" -DestinationPath "$env:TEMP"
+        
+        # Move Chromedriver to a location in PATH
+        Move-Item -Path "$env:TEMP\chromedriver.exe" -Destination "C:\Windows"
 
     - name: Build and test with Maven
       run: mvn -B verify
@@ -55,4 +50,5 @@ jobs:
       with:
         name: test-results
         path: target/surefire-reports
+
 
