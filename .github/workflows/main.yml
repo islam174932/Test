@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        architecture: 'x64'
+        server-id: 'github'
+        server-username: ${{ github.actor }}
+        server-password: ${{ github.token }}
+        overwrite-settings: true
+
+    - name: Set up Chromedriver for Windows
+      run: |
+        $env:LATEST_CHROMEDRIVER_VERSION = "93.0.4577.63"
+        Invoke-WebRequest -Uri "https://chromedriver.storage.googleapis.com/$env:LATEST_CHROMEDRIVER_VERSION/chromedriver_win32.zip" -OutFile "$env:TEMP\chromedriver.zip"
+        Expand-Archive -Path "$env:TEMP\chromedriver.zip" -DestinationPath "$env:TEMP"
+        Move-Item -Path "$env:TEMP\chromedriver.exe" -Destination "C:\Windows"
+
+    - name: Build and test with Maven
+      run: mvn -B verify
+
+    - name: Run Selenium test
+      run: mvn -B -Dtest=test.LoginTest test
+
+    - name: Archive test results
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: target/surefire-reports
+
+
