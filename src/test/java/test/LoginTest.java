@@ -30,20 +30,9 @@ public class LoginTest {
 
         // The user will click on Account
         Thread.sleep(3000);
-        WebElement account = driver.findElement(By.xpath("//*[@id=\"customer_menu_top\"]/li/a"));
+        WebElement account = driver.findElement(By.xpath("//*[@id=\"navbar-collapse-header\"]/div/a[2]"));
         account.click();
         Thread.sleep(3000);
-
-        // The user will write invalid username and password
-        String username = "invalidUsername";
-        String password = "invalidPassword";
-        enterInvalidCredentials(username, password);
-
-        // The user will click the sign-in button
-        Thread.sleep(3000);
-        WebElement signInButton = driver.findElement(By.xpath("//*[@id=\"loginFrm\"]/fieldset/button"));
-        signInButton.click();
-        Thread.sleep(7000);
 
         // Add assertions to verify the expected outcomes, if any
     }

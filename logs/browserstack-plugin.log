@@ -7,3 +7,21 @@
 01:10:28.735 [ApplicationImpl pooled thread 563] INFO  c.b.l.BrowserStackRunExtension - junit
 01:10:28.735 [ApplicationImpl pooled thread 563] INFO  com.browserstack.utils.Helpers - null
 01:10:28.736 [ApplicationImpl pooled thread 563] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+01:24:30.482 [ApplicationImpl pooled thread 21] INFO  c.b.l.BrowserStackRunExtension - junit
+01:24:30.495 [ApplicationImpl pooled thread 21] INFO  com.browserstack.utils.Helpers - null
+01:24:30.498 [ApplicationImpl pooled thread 21] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+02:08:21.923 [ApplicationImpl pooled thread 49] INFO  c.b.l.BrowserStackRunExtension - junit
+02:08:21.923 [ApplicationImpl pooled thread 49] INFO  com.browserstack.utils.Helpers - null
+02:08:21.924 [ApplicationImpl pooled thread 49] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+02:10:12.235 [ApplicationImpl pooled thread 69] INFO  c.b.l.BrowserStackRunExtension - junit
+02:10:12.235 [ApplicationImpl pooled thread 69] INFO  com.browserstack.utils.Helpers - null
+02:10:12.235 [ApplicationImpl pooled thread 69] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+02:11:56.100 [ApplicationImpl pooled thread 77] INFO  c.b.l.BrowserStackRunExtension - junit
+02:11:56.100 [ApplicationImpl pooled thread 77] INFO  com.browserstack.utils.Helpers - null
+02:11:56.101 [ApplicationImpl pooled thread 77] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+02:13:33.689 [ApplicationImpl pooled thread 81] INFO  c.b.l.BrowserStackRunExtension - junit
+02:13:33.690 [ApplicationImpl pooled thread 81] INFO  com.browserstack.utils.Helpers - null
+02:13:33.690 [ApplicationImpl pooled thread 81] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+02:16:46.305 [ApplicationImpl pooled thread 105] INFO  c.b.l.BrowserStackRunExtension - junit
+02:16:46.305 [ApplicationImpl pooled thread 105] INFO  com.browserstack.utils.Helpers - null
+02:16:46.306 [ApplicationImpl pooled thread 105] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
