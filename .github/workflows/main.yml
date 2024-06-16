@@ -1,4 +1,4 @@
-name: Selenium Test
+name: CI
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: windows-latest  # Use Windows runner
+    runs-on: windows-latest
     
     steps:
     - name: Checkout code
@@ -29,20 +29,16 @@ jobs:
 
     - name: Set up Chromedriver for Windows
       run: |
-        # Replace this with the correct Chromedriver version for your Chrome version
-        $LATEST_CHROMEDRIVER_VERSION = "93.0.4577.63"  # Example version; replace with your Chrome version
-
-        # Download Chromedriver
-        Invoke-WebRequest -Uri "https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER_VERSION/chromedriver_win32.zip" -OutFile "$env:TEMP\chromedriver.zip"
-
-        # Extract Chromedriver
+        $env:LATEST_CHROMEDRIVER_VERSION = "93.0.4577.63"
+        Invoke-WebRequest -Uri "https://chromedriver.storage.googleapis.com/$env:LATEST_CHROMEDRIVER_VERSION/chromedriver_win32.zip" -OutFile "$env:TEMP\chromedriver.zip"
         Expand-Archive -Path "$env:TEMP\chromedriver.zip" -DestinationPath "$env:TEMP"
-        
-        # Move Chromedriver to a location in PATH
         Move-Item -Path "$env:TEMP\chromedriver.exe" -Destination "C:\Windows"
 
     - name: Build and test with Maven
       run: mvn -B verify
+
+    - name: Run Selenium test
+      run: mvn -B -Dtest=test.LoginTest test
 
     - name: Archive test results
       if: always()
